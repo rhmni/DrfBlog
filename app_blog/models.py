@@ -4,6 +4,18 @@ from django.db import models
 from tinymce.models import HTMLField
 
 
+class Category(models.Model):
+    sub_category = models.ForeignKey('self', on_delete=models.CASCADE, related_name='subcategories', null=True,
+                                     blank=True)
+    is_sub = models.BooleanField(default=False)
+    name = models.CharField(max_length=200)
+    slug = models.SlugField(max_length=200, unique=True)
+    register_date = models.DateTimeField()
+
+    def __str__(self):
+        return self.name
+
+
 class Article(models.Model):
     SHARING_STATUS = (
         ('C', 'confirming'),
@@ -12,6 +24,7 @@ class Article(models.Model):
         ('U', 'unconfirmed'),
     )
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='articles')
+    category = models.ManyToManyField(Category, related_name='articles')
     title = models.CharField(max_length=250)
     slug = models.SlugField(allow_unicode=True)
     body = HTMLField()
