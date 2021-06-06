@@ -21,6 +21,11 @@ class PublishManager(models.Manager):
         return super().get_queryset().filter(is_delete=False, is_active=True, status='P')
 
 
+class ActiveManager(models.Manager):
+    def get_queryset(self):
+        return super().get_queryset().filter(is_delete=False, is_active=True)
+
+
 class Article(models.Model):
     SHARING_STATUS = (
         ('C', 'confirming'),
@@ -39,9 +44,11 @@ class Article(models.Model):
     is_active = models.BooleanField(default=True)
     status = models.CharField(max_length=150, choices=SHARING_STATUS, default='D')
     last_update = models.DateTimeField()
+    publish_date = models.DateTimeField(null=True, blank=True)
 
     objects = models.Manager()
     published = PublishManager()
+    active = ActiveManager()
 
     def __str__(self):
         return self.title
@@ -49,4 +56,7 @@ class Article(models.Model):
     def save(self, *args, **kwargs):
         if self.is_delete and not self.delete_date:
             self.delete_date = datetime.now()
+        if self.status == 'P' and not self.publish_date:
+            self.publish_date = datetime.now()
+        self.last_update = datetime.now()
         super(Article, self).save(*args, **kwargs)
