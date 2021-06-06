@@ -16,6 +16,11 @@ class Category(models.Model):
         return self.name
 
 
+class PublishManager(models.Manager):
+    def get_queryset(self):
+        return super().get_queryset().filter(is_delete=False, is_active=True, status='P')
+
+
 class Article(models.Model):
     SHARING_STATUS = (
         ('C', 'confirming'),
@@ -34,6 +39,9 @@ class Article(models.Model):
     is_active = models.BooleanField(default=True)
     status = models.CharField(max_length=150, choices=SHARING_STATUS, default='D')
     last_update = models.DateTimeField()
+
+    objects = models.Manager()
+    published = PublishManager()
 
     def __str__(self):
         return self.title
