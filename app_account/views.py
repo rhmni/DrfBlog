@@ -1,5 +1,6 @@
 from django.shortcuts import get_object_or_404
 from rest_framework import status
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from app_blog.models import Article
@@ -8,6 +9,9 @@ from app_blog.serializer import ArticleProfileSerializer
 
 class ArticleProfileView(APIView):
     serializer_class = ArticleProfileSerializer
+    permission_classes = (
+        IsAuthenticated,
+    )
 
     def get(self, request, article_id=None):
         if article_id is not None:
@@ -17,4 +21,3 @@ class ArticleProfileView(APIView):
             articles = Article.active.filter(author=request.user)
             srz_data = self.serializer_class(instance=articles, many=True)
         return Response(srz_data.data, status=status.HTTP_200_OK)
-

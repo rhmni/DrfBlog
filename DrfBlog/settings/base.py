@@ -8,6 +8,12 @@ AUTH_USER_MODEL = 'app_account.User'
 
 SECRET_KEY = config('SECRET_KEY')
 
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ],
+}
+
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
