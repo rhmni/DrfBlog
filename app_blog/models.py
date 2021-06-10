@@ -54,9 +54,19 @@ class Article(models.Model):
         return self.title
 
     def save(self, *args, **kwargs):
+
         if self.is_delete and not self.delete_date:
             self.delete_date = datetime.now()
+
+        if not self.is_delete:
+            self.delete_date = None
+
         if self.status == 'P' and not self.publish_date:
             self.publish_date = datetime.now()
+
+        if self.status != 'P':
+            self.publish_date = None
+
         self.last_update = datetime.now()
+
         super(Article, self).save(*args, **kwargs)
