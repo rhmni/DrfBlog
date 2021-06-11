@@ -18,7 +18,7 @@ class ChangePasswordView(APIView):
     def post(self, request):
         user = request.user
         srz_data = self.serializer_class(data=request.data)
-        if srz_data.is_valid():
+        if srz_data.is_valid(raise_exception=True):
             data = srz_data.validated_data
             if user.check_password(data['old_password']):
                 user.set_password(data['new_password'])
@@ -26,8 +26,6 @@ class ChangePasswordView(APIView):
                 return Response({'message': 'password changed successfully!'})
             else:
                 return Response({'message': 'old password is wrong!'})
-        else:
-            return Response(srz_data.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class ArticleProfileView(APIView):
@@ -54,7 +52,7 @@ class ArticleCreateProfileView(APIView):
 
     def post(self, request):
         srz_data = self.serializer_class(data=request.data)
-        if srz_data.is_valid():
+        if srz_data.is_valid(raise_exception=True):
             srz_data.save(
                 author=request.user,
             )
@@ -65,8 +63,6 @@ class ArticleCreateProfileView(APIView):
                     status='D',
                 )
             return Response(srz_data.data, status=status.HTTP_201_CREATED)
-        else:
-            return Response(srz_data.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class ArticleUpdateProfileView(APIView):
@@ -81,7 +77,7 @@ class ArticleUpdateProfileView(APIView):
 
         srz_data = self.serializer_class(instance=article, data=request.data, partial=True)
 
-        if srz_data.is_valid():
+        if srz_data.is_valid(raise_exception=True):
             srz_data.save()
 
             # checking if status that user selected is unconfirmed or published set that, to draft
@@ -90,8 +86,6 @@ class ArticleUpdateProfileView(APIView):
                     status='D',
                 )
             return Response(srz_data.data, status=status.HTTP_204_NO_CONTENT)
-        else:
-            return Response(srz_data.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class ArticleDeleteProfileView(APIView):
