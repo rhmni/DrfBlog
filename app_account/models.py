@@ -2,7 +2,6 @@ from django.contrib.auth.base_user import AbstractBaseUser
 from django.db import models
 from .manager import UserManager
 from django.dispatch import receiver
-from django.urls import reverse
 from django_rest_passwordreset.signals import reset_password_token_created
 from django.core.mail import send_mail
 
@@ -37,6 +36,7 @@ class User(AbstractBaseUser):
         return self.is_superuser
 
 
+# this signal for send email reset password
 @receiver(reset_password_token_created)
 def password_reset_token_created(sender, instance, reset_password_token, *args, **kwargs):
     email_plaintext_message = f"your token is = {reset_password_token.key}"
