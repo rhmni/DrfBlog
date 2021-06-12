@@ -2,6 +2,14 @@ import os
 from pathlib import Path
 from decouple import config
 
+# SEND EMAIL
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = config('EMAIL_HOST')
+EMAIL_HOST_USER = config('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 AUTH_USER_MODEL = 'app_account.User'
@@ -25,6 +33,7 @@ INSTALLED_APPS = [
     # Third Party Apps
     'tinymce',
     'rest_framework',
+    'django_rest_passwordreset',
 
     # Local Apps
     'app_account.apps.AppAccountConfig',
