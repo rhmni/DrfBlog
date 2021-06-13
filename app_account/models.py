@@ -1,9 +1,9 @@
 from django.contrib.auth.base_user import AbstractBaseUser
 from django.db import models
+from app_account.celery_tasks import send_password_reset_mail
 from .manager import UserManager
 from django.dispatch import receiver
 from django_rest_passwordreset.signals import reset_password_token_created
-from django.core.mail import send_mail
 
 
 class User(AbstractBaseUser):
@@ -41,9 +41,10 @@ class User(AbstractBaseUser):
 def password_reset_token_created(sender, instance, reset_password_token, *args, **kwargs):
     email_plaintext_message = f"your token is = {reset_password_token.key}"
 
-    send_mail(
-        "Password Reset",
-        email_plaintext_message,
-        "noreply@host.com",
-        [reset_password_token.user.email]
-    )
+    mail_info = {
+        'subject': 'Password Reset',
+        'message': email_plaintext_message,
+        'from_email': 'noreply@host.com',
+        'recipient_list': [reset_password_token.user.email],
+    }
+    send_password_reset_mail.delay(mail_info)
