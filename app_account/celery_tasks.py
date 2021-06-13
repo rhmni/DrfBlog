@@ -1,10 +1,10 @@
 from datetime import datetime
+from celery import shared_task
 from django.core.mail import send_mail
-from DrfBlog import celery_app
 from app_account.models import User
 
 
-@celery_app.task
+@shared_task
 def send_birthday_email():
     users = User.objects.filter(is_active=True, date_of_birth__isnull=False, email__isnull=False)
     time = datetime.today()
