@@ -2,6 +2,10 @@ import os
 from pathlib import Path
 from decouple import config
 
+# celery conf
+CELERY_BROKER_URL = 'amqp://localhost'
+CELERY_RESULT_BACKEND = 'rpc://'
+
 # ARVAN CLOUD STORAGES
 DEFAULT_FILE_STORAGE = config('DEFAULT_FILE_STORAGE')
 AWS_ACCESS_KEY_ID = config('AWS_ACCESS_KEY_ID')
@@ -43,6 +47,7 @@ INSTALLED_APPS = [
     'tinymce',
     'rest_framework',
     'django_rest_passwordreset',
+    'django_celery_beat',
 
     # Local Apps
     'app_account.apps.AppAccountConfig',
@@ -96,7 +101,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Tehran'
 
 USE_I18N = True
 
