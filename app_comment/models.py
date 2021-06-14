@@ -54,6 +54,9 @@ class Comment(models.Model):
         if not self.is_delete:
             self.delete_date = None
 
+        if not self.register_date:
+            self.register_date = datetime.now()
+
         super(Comment, self).save(*args, **kwargs)
 
     def clean(self):

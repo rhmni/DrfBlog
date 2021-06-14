@@ -25,3 +25,17 @@ class SubCommentSerializer(serializers.ModelSerializer):
         )
 
 
+class CreateCommentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Comment
+        fields = (
+            'writer',
+            'article',
+            'body',
+            'register_date',
+        )
+
+        read_only_fields = (
+            'writer',
+            'register_date',
+        )
