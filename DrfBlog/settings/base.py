@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     # Local Apps
     'app_account.apps.AppAccountConfig',
     'app_blog.apps.AppBlogConfig',
+    'app_comment.apps.AppCommentConfig',
 ]
 
 MIDDLEWARE = [

@@ -42,6 +42,7 @@ class Article(models.Model):
     is_delete = models.BooleanField(default=False)
     delete_date = models.DateTimeField(null=True, blank=True)
     is_active = models.BooleanField(default=True)
+    can_comment = models.BooleanField(default=True)
     status = models.CharField(max_length=150, choices=SHARING_STATUS, default='D')
     last_update = models.DateTimeField()
     publish_date = models.DateTimeField(null=True, blank=True)

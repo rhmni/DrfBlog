@@ -20,6 +20,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('blog/', include('app_blog.urls', namespace='blog')),
     path('account/', include('app_account.urls', namespace='account')),
+    path('comment/', include('app_comment.urls', namespace='comment')),
 
     # reset password
     path('auth/password_reset/', include('django_rest_passwordreset.urls', namespace='password_reset')),
