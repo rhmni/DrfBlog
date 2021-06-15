@@ -4,6 +4,6 @@ from app_comment import views
 app_name = 'comment'
 urlpatterns = [
     path('comments/', views.CommentListView.as_view()),
-    path('sub-comments/', views.SubCommentListView.as_view()),
+    path('sub-comments/<int:comment_id>/', views.SubCommentListView.as_view()),
     path('comments/create/', views.CreateCommentView.as_view()),
 ]

@@ -1,5 +1,4 @@
 from datetime import datetime
-
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
@@ -20,8 +19,8 @@ class CommentListView(APIView):
 class SubCommentListView(APIView):
     serializer_class = SubCommentSerializer
 
-    def get(self, request):
-        comments = Comment.objects.filter(is_confirm=True, is_delete=False, is_sub=True)
+    def get(self, request, comment_id):
+        comments = Comment.objects.filter(is_confirm=True, is_delete=False, is_sub=True, sub_comment__id=comment_id)
         srz_data = self.serializer_class(instance=comments, many=True)
         return Response(srz_data.data, status=status.HTTP_200_OK)
 
