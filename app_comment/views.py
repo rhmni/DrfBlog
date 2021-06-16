@@ -1,5 +1,6 @@
 from datetime import datetime
 from rest_framework import status
+from django.shortcuts import get_object_or_404
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -40,3 +41,15 @@ class CreateCommentView(APIView):
                 register_date=datetime.now(),
             )
             return Response(srz_data.data, status=status.HTTP_201_CREATED)
+
+
+class DeleteCommentView(APIView):
+    permission_classes = (
+        IsAuthenticated,
+    )
+
+    def delete(self, request, comment_id):
+        comment = get_object_or_404(Comment, pk=comment_id, is_delete=False, is_confirm=True, writer=request.user)
+        comment.is_delete = True
+        comment.save()
+        return Response({'message': 'comment deleted successfully!'})

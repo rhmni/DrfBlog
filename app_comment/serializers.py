@@ -31,6 +31,7 @@ class CreateCommentSerializer(serializers.ModelSerializer):
         fields = (
             'writer',
             'article',
+            'sub_comment',
             'body',
             'register_date',
         )

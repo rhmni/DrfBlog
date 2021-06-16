@@ -48,6 +48,9 @@ class Comment(models.Model):
         if self.sub_comment:
             self.is_sub = True
 
+        if self.is_sub:
+            self.article = self.sub_comment.article
+
         if self.is_delete and not self.delete_date:
             self.delete_date = datetime.now()
 
@@ -59,8 +62,9 @@ class Comment(models.Model):
 
         super(Comment, self).save(*args, **kwargs)
 
-    def clean(self):
-        if self.is_sub and not self.sub_comment:
-            raise ValidationError({
-                'sub_comment': ValidationError('this field with is_sub=True can not be empty.', code='empty'),
-            })
+
+def clean(self):
+    if self.is_sub and not self.sub_comment:
+        raise ValidationError({
+            'sub_comment': ValidationError('this field with is_sub=True can not be empty.', code='empty'),
+        })
