@@ -94,3 +94,13 @@ class ArticleDeleteProfileView(APIView):
         article.is_delete = True
         article.save()
         return Response({'message': 'deleted successfully!'}, status=status.HTTP_204_NO_CONTENT)
+
+
+class ArticleCategoryView(APIView):
+    serializer_class = ArticleSerializer
+
+    def get(self, request, slug):
+        articles = Article.published.filter(category__slug=slug)
+        srz_data = self.serializer_class(instance=articles, many=True)
+
+        return Response(srz_data.data, status=status.HTTP_200_OK)
