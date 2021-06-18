@@ -12,4 +12,7 @@ urlpatterns = [
 
     # change password url
     path('profile/change-password/', views.ChangePasswordView.as_view()),
+
+    path('phone/send/', views.SendSmsView.as_view()),
+    path('phone/verification/', views.VerificationPhoneView.as_view()),
 ]

@@ -44,4 +44,6 @@ class UserChangeForm(forms.ModelForm):
             'is_superuser',
             'last_login',
             'join_date',
+            'phone',
+            'is_phone_Confirm',
         )

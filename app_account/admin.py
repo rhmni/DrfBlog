@@ -13,8 +13,8 @@ class UserAdmin(BaseUserAdmin):
     list_filter = ('is_superuser', 'is_active')
     fieldsets = (
         ('Security information', {'fields': ('username', 'email', 'password')}),
-        ('Personal info', {'fields': ('name', 'bio', 'avatar')}),
-        ('Permissions', {'fields': ('is_superuser', 'is_active')}),
+        ('Personal info', {'fields': ('name', 'bio', 'avatar', 'phone')}),
+        ('Permissions', {'fields': ('is_superuser', 'is_active', 'is_phone_Confirm')}),
         ('Important date', {'fields': ('date_of_birth', 'last_login', 'join_date')}),
     )
 

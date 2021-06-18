@@ -37,3 +37,39 @@ class ChangePassworSerializer(serializers.Serializer):
         if not any(char.isalpha() for char in password):
             raise serializers.ValidationError('Password must contain alpha.')
         return password
+
+
+class PhoneSerializer(serializers.Serializer):
+    phone = serializers.CharField()
+
+    def validate_phone(self, value):
+
+        if len(value) != 11:
+            raise serializers.ValidationError('phone must be 11 character')
+        if not value.isnumeric():
+            raise serializers.ValidationError('phone must be only number')
+        if not value.startswith('09'):
+            raise serializers.ValidationError('phone must start with "09"')
+        return value
+
+
+class PhoneVerificationSerializer(serializers.Serializer):
+    phone = serializers.CharField()
+    otp_code = serializers.CharField()
+
+    def validate_phone(self, value):
+        if len(value) != 11:
+            raise serializers.ValidationError('phone must be 11 character')
+        if not value.isnumeric():
+            raise serializers.ValidationError('phone must be only number')
+        if not value.startswith('09'):
+            raise serializers.ValidationError('phone must start with "09"')
+        return value
+
+    def validate_otp_code(self, value):
+        if len(value) != 6:
+            raise serializers.ValidationError('otp code must be 6 character')
+        if not value.isnumeric():
+            raise serializers.ValidationError('otp code must be only number')
+
+        return value
